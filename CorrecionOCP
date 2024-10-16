@@ -1,0 +1,80 @@
+// Interfaz para dispositivos que se pueden encender o apagar (Operable)
+public interface Operable {
+void encender();
+void apagar();
+}
+// Interfaz para dispositivos que pueden registrar logs (solo si es necesario)
+public interface Registrable {
+void guardarLog(String mensaje);
+}
+// Clase que maneja el registro de logs, separada de la lógica de los dispositivos (cumple
+SRP)
+public class GestorDeLogs implements Registrable {
+@Override
+public void guardarLog(String mensaje) {
+// Simulación de guardar log en un archivo
+System.out.println("Guardando log: " + mensaje);
+}
+}
+// Clase Lampara solo se encarga de su funcionalidad (cumple SRP)
+public class Lampara implements Operable {
+private boolean encendida = false;
+private Registrable gestorDeLogs;
+// Constructor que recibe un gestor de logs (cumple DIP)
+public Lampara(Registrable gestorDeLogs) {
+this.gestorDeLogs = gestorDeLogs;
+}
+@Override
+public void encender() {
+encendida = true;
+System.out.println("Lámpara encendida");
+gestorDeLogs.guardarLog("Lámpara encendida");
+}
+@Override
+public void apagar() {
+encendida = false;
+System.out.println("Lámpara apagada");
+gestorDeLogs.guardarLog("Lámpara apagada");
+}
+}
+// Clase Ventilador como nuevo dispositivo (aprovecha el OCP)
+public class Ventilador implements Operable {
+private boolean encendido = false;
+@Override
+public void encender() {
+encendido = true;
+System.out.println("Ventilador encendido");
+}
+@Override
+public void apagar() {
+encendido = false;
+System.out.println("Ventilador apagado");
+}
+}
+// Clase Interruptor que opera sobre cualquier dispositivo Operable (cumple OCP)
+public class Interruptor {
+private Operable dispositivo;
+// El interruptor ahora acepta cualquier dispositivo que sea Operable
+public Interruptor(Operable dispositivo) {
+this.dispositivo = dispositivo;
+}
+public void presionar() {
+// Aquí usamos un dispositivo Operable, por lo que no dependemos de una clase
+concreta
+if (dispositivo instanceof Lampara) {
+    Lampara lampara = (Lampara) dispositivo;
+if (lampara != null && lampara.encendida) {
+lampara.apagar();
+} else {
+lampara.encender();
+}
+} else if (dispositivo instanceof Ventilador) {
+Ventilador ventilador = (Ventilador) dispositivo;
+if (ventilador != null && ventilador.encendido) {
+ventilador.apagar();
+} else {
+ventilador.encender();
+}
+}
+}
+}

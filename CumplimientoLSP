@@ -1,0 +1,30 @@
+// Nueva interfaz para voladores
+public interface Volador {
+void volar();
+}
+// Clase Ave sin el método volar
+public class Ave {
+private String nombre;
+public Ave(String nombre) {
+this.nombre = nombre;
+}
+public String getNombre() {
+    return nombre;
+}
+}
+// Clase Avestruz, que no implementa Volador porque no vuela
+public class Avestruz extends Ave {
+public Avestruz(String nombre) {
+super(nombre);
+}
+}
+// Clase Gorrion, que sí puede volar
+public class Gorrion extends Ave implements Volador {
+public Gorrion(String nombre) {
+super(nombre);
+}
+@Override
+public void volar() {
+System.out.println("El gorrión está volando");
+}
+}
