@@ -1,0 +1,26 @@
+// Producto con descuento
+public class ProductoConDescuento extends Producto {
+private double porcentajeDescuento;
+public ProductoConDescuento(String nombre, double precioBase, double
+porcentajeDescuento) {
+super(nombre, precioBase);
+this.porcentajeDescuento = porcentajeDescuento;
+}
+@Override
+public double calcularPrecio() {
+return getPrecioBase() - (getPrecioBase() * (porcentajeDescuento / 100));
+}
+}
+// Producto con impuesto
+public class ProductoConImpuesto extends Producto {
+private double porcentajeImpuesto;
+public ProductoConImpuesto(String nombre, double precioBase, double
+porcentajeImpuesto) {
+super(nombre, precioBase);
+this.porcentajeImpuesto = porcentajeImpuesto;
+}
+@Override
+public double calcularPrecio() {
+return getPrecioBase() + (getPrecioBase() * (porcentajeImpuesto / 100));
+}
+}
